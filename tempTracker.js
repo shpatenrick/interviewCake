@@ -1,42 +1,33 @@
 function TempTracker = () => {
-  this.len = 0;
+  this.numberOfTemps = 0;
   this.max = null;
   this.min = null;
+  this.totalSum = 0;
   this.mean = null;
+  this.temps = [];
+  for (var i = 0; i < 111; i++) {
+    this.temps[i] = 0;
+  }
+  this.tempsMax = 0;
   this.mode = null;
 };
 
 TempTracker.prototype.insert = (temp) => {
   // records new temp
-
-  if (this.len > 0) {
-    if (temp <= min) {
-      this.temps.unshift(temp);
-      this.min = temp;
-    }
-    else if (temp >= max) {
-      this.temps.push(temp);
-      this.max = temp;
-    }
-    else {
-      while (i < this.temps.length) {
-        if (temp <= this.temps[i + 1] && temp >= this.temps[i]) {
-          this.temps.splice(i, 0, temp);
-          i = Infinity;
-
-        }
-      }
-    }
-    this.len++;
-    // update mean;
-    this.mean = ((this.mean * (this.len - 1)) + temp) / (this.len);
-    // update mode;
-
-  } else {
-    this.len = 1;
-    this.max = temp;
+  this.numberOfTemps++;
+  this.totalSum += temp;
+  if (temp <= this.min || this.min === null) {
     this.min = temp;
-    this.mean = temp;
+  }
+  else if (temp >= this.max || this.max === null) {
+    this.max = temp;
+  }
+  // update mean;
+  this.mean = this.totalSum/this.numberOfTemps;
+  // update mode;
+  this.temps[temp]++;
+  if (this.temps[temp] > this.tempsMax) {
+    this.tempsMax = this.temps[temp];
     this.mode = temp;
   }
 };
